@@ -1,6 +1,5 @@
 package com.example.viewings;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,16 +19,18 @@ public class Viewing {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    Long user_id;
+    @Column(name="user_id")
+    Long userId;
 
-    Long show_id;
+    @Column(name="show_id")
+    Long showId;
 
-    @JsonProperty("episodeId")
-    Long episode_id;
+    @Column(name="episode_id")
+    Long episodeId;
 
     int timecode;
 
-    @JsonProperty("updatedAt")
-    Date updated_at;
+    @Column(name="updated_at")
+    Date updatedAt;
 
 }

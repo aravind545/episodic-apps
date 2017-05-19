@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by trainer9 on 5/17/17.
@@ -13,12 +14,21 @@ import java.util.Date;
 public interface ViewingRepository extends CrudRepository<Viewing, Long> {
 
     @Modifying
-    @Query("update Viewing v set v.episode_id = ?1 , v.updated_at =?2 , v.timecode = ?3 where v.user_id = ?4")
+    @Query("update Viewing v set v.episodeId = ?1 , v.updatedAt =?2 , v.timecode = ?3 where v.userId = ?4")
     @Transactional
     Integer updateViewingEpisodeTimeCodebyUserId(Long episodeId, Date updatedAt, int timecode, Long userId);
 
+    List<Viewing> findAllByUserIdOrderByUpdatedAt(Long userId);
 
-    Viewing findByUser_id(Long user_id);
+
+
+
+
+
+
+
+
+
 
 
 }

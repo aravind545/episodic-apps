@@ -21,13 +21,16 @@ public class Episode {
     Long id;
 
     @JsonIgnore
-    Long show_id;
+    @Column(name="show_id")
+    Long showId;
 
     @JsonProperty("seasonNumber")
-    int season_number;
+    @Column(name="season_number")
+    int seasonNumber;
 
     @JsonProperty("episodeNumber")
-    int episode_number;
+    @Column(name="episode_number")
+    int episodeNumber;
 
     @Transient
     String title;

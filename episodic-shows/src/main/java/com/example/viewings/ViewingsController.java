@@ -1,5 +1,8 @@
 package com.example.viewings;
 
+import com.example.episodes.Episode;
+import com.example.episodes.EpisodeRepository;
+import com.example.shows.Show;
 import com.example.shows.ShowRepository;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +23,30 @@ public class ViewingsController {
 
     private final ShowRepository showRepo;
 
-    public ViewingsController(ViewingRepository viewingRepo, ShowRepository showRepo) {
+    private final EpisodeRepository episodeRepo;
+
+    public ViewingsController(ViewingRepository viewingRepo, ShowRepository showRepo, EpisodeRepository episodeRepo) {
 
         Assert.notNull(viewingRepo, "ViewingRepo cannot be null");
 
         Assert.notNull(showRepo, "ShowRepository cannot be null");
+        Assert.notNull(episodeRepo, "EpisodeRepository cannot be null");
 
         this.viewingRepo = viewingRepo;
         this.showRepo = showRepo;
+        this.episodeRepo=episodeRepo;
+
+    }
+
+
+    @PatchMapping("/{id}/viewings")
+    public void patchViewing(@RequestBody Viewing viewing, @PathVariable("id") String userId) {
+
+        viewing.setUserId(Long.parseLong(userId));
+
+        //Take userId and get show from show repository.
+        this.viewingRepo.updateViewingEpisodeTimeCodebyUserId(viewing.getEpisodeId(),
+                viewing.getUpdatedAt(),viewing.getTimecode(),Long.parseLong(userId));
 
     }
 
@@ -35,11 +54,10 @@ public class ViewingsController {
     @PostMapping("/{id}/viewings")
     public void createViewing(@RequestBody Viewing viewing, @PathVariable("id") String userId) {
 
-        viewing.setUser_id(Long.parseLong(userId));
+        viewing.setUserId(Long.parseLong(userId));
 
         //Take userId and get show from show repository.
-        this.viewingRepo.updateViewingEpisodeTimeCodebyUserId(viewing.getEpisode_id(),
-                viewing.getUpdated_at(),viewing.getTimecode(),Long.parseLong(userId));
+        this.viewingRepo.save(viewing);
 
     }
 
@@ -50,12 +68,26 @@ public class ViewingsController {
 
         //Now build the ShowEpisodeByUser object
 
-        Viewing returnedViewing = this.viewingRepo.findByUser_id(Long.parseLong(userId));
+        List<Viewing> returnedViewingList = this.viewingRepo.findAllByUserIdOrderByUpdatedAt(Long.parseLong(userId));
 
         Show_Episode_By_User show_episode_by_user = new Show_Episode_By_User();
 
-        show_episode_by_user.setUpdatedAt(returnedViewing.getUpdated_at());
-        show_episode_by_user.setTimecode(returnedViewing.getTimecode());
+
+
+         Show returnedShow = showRepo.findById(returnedViewingList.get(0).getShowId());
+
+        show_episode_by_user.setShow(returnedShow);
+
+        Episode returnedEpisode = episodeRepo.findByShowId(returnedViewingList.get(0).getShowId());
+
+        show_episode_by_user.setShow(returnedShow);
+        show_episode_by_user.setEpisode(returnedEpisode);
+
+        show_episode_by_user.setUpdatedAt(returnedViewingList.get(0).getUpdatedAt());
+        show_episode_by_user.setTimecode(returnedViewingList.get(0).getTimecode());
+
+        allShowEpisodesByUser.add(show_episode_by_user);
+
 //
 //        for(Episode episode: allEpisodes)
 //        {

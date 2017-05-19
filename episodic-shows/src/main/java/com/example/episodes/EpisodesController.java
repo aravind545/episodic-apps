@@ -28,9 +28,9 @@ public class EpisodesController {
     @PostMapping("{id}/episodes")
     public Episode createShow(@RequestBody Episode episode, @PathVariable(value="id") String showid) {
 
-        episode.setShow_id(Long.parseLong(showid));
+        episode.setShowId(Long.parseLong(showid));
         Episode savedEpisode = episodeRepo.save(episode);
-        savedEpisode.setTitle("S"+savedEpisode.getSeason_number()+" E"+savedEpisode.getEpisode_number());
+        savedEpisode.setTitle("S"+savedEpisode.getSeasonNumber()+" E"+savedEpisode.getEpisodeNumber());
         return savedEpisode;
     }
 
@@ -40,7 +40,7 @@ public class EpisodesController {
 
         for(Episode episode: allEpisodes)
         {
-            episode.setTitle("S"+episode.getSeason_number()+" E"+episode.getEpisode_number());
+            episode.setTitle("S"+episode.getSeasonNumber()+" E"+episode.getEpisodeNumber());
         }
         return allEpisodes;
     }
