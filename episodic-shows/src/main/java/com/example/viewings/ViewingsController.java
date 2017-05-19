@@ -80,6 +80,8 @@ public class ViewingsController {
 
         Episode returnedEpisode = episodeRepo.findByShowId(returnedViewingList.get(0).getShowId());
 
+        returnedEpisode.setTitle("S"+returnedEpisode.getShowId() + " E"+returnedEpisode.getSeasonNumber());
+
         show_episode_by_user.setShow(returnedShow);
         show_episode_by_user.setEpisode(returnedEpisode);
 
@@ -88,11 +90,6 @@ public class ViewingsController {
 
         allShowEpisodesByUser.add(show_episode_by_user);
 
-//
-//        for(Episode episode: allEpisodes)
-//        {
-//            episode.setTitle("S"+episode.getSeason_number()+" E"+episode.getEpisode_number());
-//        }
         return allShowEpisodesByUser;
     }
 }
