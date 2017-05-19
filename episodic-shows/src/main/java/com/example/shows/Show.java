@@ -17,6 +17,7 @@ public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     String name;
 
 }
