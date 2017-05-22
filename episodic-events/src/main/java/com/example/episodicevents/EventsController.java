@@ -1,6 +1,8 @@
 package com.example.episodicevents;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +26,8 @@ public class EventsController {
 
     @GetMapping("/recent")
         public List<Event> getEvents() {
-        return eventsRepo.findAll();
+        PageRequest pageRequest = new PageRequest(0,20, new Sort(Sort.Direction.DESC, "createdAt"));
+        return eventsRepo.findRecent(pageRequest);
     }
 
     @PostMapping

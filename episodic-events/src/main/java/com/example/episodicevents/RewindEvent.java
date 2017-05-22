@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by trainer9 on 5/22/17.
@@ -19,7 +19,7 @@ public class RewindEvent extends Event {
     private Data data;
 
 
-    public RewindEvent(Long userId, Long showId, Long episodeId, Date createdAt, Data data) {
+    public RewindEvent(Long userId, Long showId, Long episodeId, LocalDateTime createdAt, Data data) {
 
         super(userId, showId, episodeId, createdAt);
         this.data=data;

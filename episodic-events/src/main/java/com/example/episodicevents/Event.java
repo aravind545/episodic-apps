@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by trainer9 on 5/22/17.
@@ -52,19 +52,19 @@ public abstract class Event {
         this.episodeId = episodeId;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
     private Long showId;
     private Long episodeId;
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    public Event(Long userId, Long showId, Long episodeId, Date createdAt) {
+    public Event(Long userId, Long showId, Long episodeId, LocalDateTime createdAt) {
 
         this.userId = userId;
         this.showId = showId;
