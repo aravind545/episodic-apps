@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface EpisodeRepository extends CrudRepository<Episode, Long> {
 
     Episode findByShowId(Long showId);
+
+    Episode findByEpisodeNumber(int episodeNumber);
 }

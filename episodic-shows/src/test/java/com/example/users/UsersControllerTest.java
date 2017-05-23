@@ -1,5 +1,6 @@
 package com.example.users;
 
+import com.example.MyTestBaseClass;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UsersControllerTest {
+public class UsersControllerTest extends MyTestBaseClass {
 
     @Autowired
     MockMvc mockMvc;

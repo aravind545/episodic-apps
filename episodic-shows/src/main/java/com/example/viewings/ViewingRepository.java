@@ -20,5 +20,7 @@ public interface ViewingRepository extends CrudRepository<Viewing, Long> {
 
     List<Viewing> findAllByUserIdOrderByUpdatedAt(Long userId);
 
+    Viewing findViewingByEpisodeId(Long episodeId);
+
 
 }
