@@ -32,11 +32,17 @@ public class EventsControllerTest {
     MockMvc mvc;
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     private EventsRepository eventsRepo;
+
+
 
     @Before
     public void setUp() {
         eventsRepo.deleteAll();
+
     }
 
     @Test
@@ -45,24 +51,25 @@ public class EventsControllerTest {
         Map<String, Object> payload = new HashMap<String, Object>() {
             {
                 put("type", "play");
-                put("userId", 1);
-                put("showId", 1);
-                put("episodeId", 2);
-                put("createdAt", "2017-11-08T15:59:13.0091745");
-                put("data", new HashMap<String, Object>() {
+                    put("userId", 1);
+                    put("showId", 1);
+                    put("episodeId", 2);
+                    put("createdAt", "2017-11-08T15:59:13.0091745");
+                    put("data", new HashMap<String, Object>() {
                     {
-                        put("offset", 0);
+                        put("offset", 32);
                     }
                 });
             }
         };
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(payload);
+
+        String json = objectMapper.writeValueAsString(payload);
 
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json);
+
         mvc.perform(request)
                 .andExpect(status().isOk());
     }
@@ -83,8 +90,8 @@ public class EventsControllerTest {
                 });
             }
         };
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(payload);
+
+        String json = objectMapper.writeValueAsString(payload);
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -111,8 +118,8 @@ public class EventsControllerTest {
                 });
             }
         };
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(payload);
+
+        String json = objectMapper.writeValueAsString(payload);
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -139,8 +146,8 @@ public class EventsControllerTest {
                 });
             }
         };
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(payload);
+
+        String json = objectMapper.writeValueAsString(payload);
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -151,7 +158,9 @@ public class EventsControllerTest {
 
     @Test
     public void postEvent_progress() throws Exception {
+
         Map<String, Object> payload = new HashMap<String, Object>() {
+
             {
                 put("type", "progress");
                 put("userId", 52);
@@ -165,8 +174,8 @@ public class EventsControllerTest {
                 });
             }
         };
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(payload);
+
+        String json = objectMapper.writeValueAsString(payload);
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)

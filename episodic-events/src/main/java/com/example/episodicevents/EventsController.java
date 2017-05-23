@@ -30,7 +30,7 @@ public class EventsController {
         return eventsRepo.findRecent(pageRequest);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Object createEvent(@RequestBody Event event) {
         eventsRepo.save(event);
                 return event;
