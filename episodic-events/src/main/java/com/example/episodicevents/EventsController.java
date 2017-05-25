@@ -1,5 +1,6 @@
 package com.example.episodicevents;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -16,9 +20,19 @@ import java.util.List;
 @RestController
 public class EventsController {
 
+    private final RabbitTemplate rabbitTemplate;
 
-    public EventsController(EventsRepository eventsRepo) {
+
+
+    @PostMapping
+    public void publishEvent(@RequestBody String body){
+        rabbitTemplate.convertAndSend("my-exchange", "my-routing-key", body);
+    }
+
+
+    public EventsController(EventsRepository eventsRepo, RabbitTemplate rabbitTemplate) {
         this.eventsRepo = eventsRepo;
+        this.rabbitTemplate=rabbitTemplate;
     }
 
     @Autowired
@@ -33,6 +47,15 @@ public class EventsController {
     @PostMapping("/")
     public Object createEvent(@RequestBody Event event) {
         eventsRepo.save(event);
-                return event;
+        if(event instanceof ProgressEvent)
+        {
+            Instant instant = event.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant();
+            rabbitTemplate.convertAndSend("my-exchange", "my-routing-key", new ProgressMessage(event.getUserId()
+                    ,event.getEpisodeId(),
+                    Date.from(instant),((ProgressEvent) event).getData().getOffset()));
+
+
+        }
+        return event;
     }
 }

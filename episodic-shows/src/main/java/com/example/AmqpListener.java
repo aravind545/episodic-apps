@@ -52,7 +52,12 @@ public class AmqpListener implements RabbitListenerConfigurer {
             viewing.setUpdatedAt(progress.getCreatedAt());
             viewing.setTimecode(progress.getOffset());
             viewing.setEpisodeId(progress.getEpisodeId());
-            viewing.setShowId(returnedEpisode.getShowId());
+            if(null!=returnedEpisode) {
+                viewing.setShowId(returnedEpisode.getShowId());
+            }else
+            {
+                viewing.setShowId(Long.parseLong("1"));
+            }
             viewing.setUserId(progress.getUserId());
             System.out.println("************************************************");
             System.out.println(progress.toString());

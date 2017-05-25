@@ -26,6 +26,9 @@ public abstract class Event {
 
 
     private Long userId;
+    private Long showId;
+    private Long episodeId;
+    private LocalDateTime createdAt;
 
 
     public Long getUserId() {
@@ -60,9 +63,7 @@ public abstract class Event {
         this.createdAt = createdAt;
     }
 
-    private Long showId;
-    private Long episodeId;
-    private LocalDateTime createdAt;
+
 
     public Event(Long userId, Long showId, Long episodeId, LocalDateTime createdAt) {
 
